@@ -277,6 +277,7 @@ public class DiscordBot {
         Map<String, String> libraries = new HashMap<>();
 
         libraries.put("json-20190722.jar", "https://repo1.maven.org/maven2/org/json/json/20190722/json-20190722.jar");
+        libraries.put("slf4j-api-1.7.29.jar", "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.29/slf4j-api-1.7.29.jar");
         libraries.put("slf4j-nop-1.7.29.jar", "https://repo1.maven.org/maven2/org/slf4j/slf4j-nop/1.7.29/slf4j-nop-1.7.29.jar");
 
         helper.download(libraries, libDir.toPath());
