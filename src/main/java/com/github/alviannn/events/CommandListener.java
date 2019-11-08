@@ -40,7 +40,7 @@ public class CommandListener extends ListenerAdapter {
                         .setDescription("Thank you for using Alvian DBot!")
                         .addField("Prefix", plugin.commandPrefix, false);
 
-                plugin.queueMessage(channel.getIdLong(), builder.build());
+                DiscordBot.queueMessage(channel.getIdLong(), builder.build());
             }
             else {
                 for (Command command : plugin.commandList) {

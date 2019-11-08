@@ -31,6 +31,13 @@ public class MessageListener extends ListenerAdapter {
         }
     }
 
+    /**
+     * stores the messages to log
+     *
+     * @param user the user
+     * @param channel the channel
+     * @param message the message
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void storeMessage(String user, String channel, String message) throws IOException {
         File logsFile = new File("logs", Utils.getDateFormat("yyyy-MM-dd") + ".log");

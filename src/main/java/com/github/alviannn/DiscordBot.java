@@ -56,9 +56,6 @@ public class DiscordBot {
 
     public final List<Command> commandList;
 
-    /**
-     * constructor
-     */
     public DiscordBot() {
         instance = this;
         scheduledTasks = new HashMap<>();

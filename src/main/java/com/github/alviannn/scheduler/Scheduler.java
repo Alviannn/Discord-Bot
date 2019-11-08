@@ -26,6 +26,9 @@ public abstract class Scheduler implements Runnable {
 
     // ------------------------ Handler ------------------------ //
 
+    /**
+     * runs the task
+     */
     public synchronized TaskScheduled runTask() {
         Future<?> future = plugin.scheduledService.submit(runnable);
         TaskScheduled task = this.createNewTask(future);
@@ -40,18 +43,33 @@ public abstract class Scheduler implements Runnable {
         return task;
     }
 
+    /**
+     * runs the task asynchronously
+     */
     public synchronized TaskScheduled runTaskAsync() {
         Future<?> future = plugin.asyncService.submit(runnable);
 
         return this.createNewTask(future);
     }
 
+    /**
+     * runs the task timer
+     *
+     * @param delay  the delay
+     * @param period the period
+     */
     public synchronized TaskScheduled runTaskTimer(long delay, long period) {
         Future<?> future = plugin.scheduledService.scheduleAtFixedRate(runnable, delay, period, timeUnit);
 
         return this.createNewTask(future);
     }
 
+    /**
+     * runs the task timer asynchronously
+     *
+     * @param delay  the delay
+     * @param period the period
+     */
     public synchronized TaskScheduled runTaskTimerAsync(long delay, long period) {
         Future<?> future = plugin.asyncService.submit(() -> plugin.scheduledService.scheduleAtFixedRate(runnable, delay, period, timeUnit));
         TaskScheduled task = this.createNewTask(future);
@@ -66,6 +84,11 @@ public abstract class Scheduler implements Runnable {
         return task;
     }
 
+    /**
+     * runs the task later
+     *
+     * @param delay the delay
+     */
     public synchronized TaskScheduled runTaskLater(long delay) {
         Future<?> future = plugin.scheduledService.schedule(runnable, delay, timeUnit);
         TaskScheduled task = this.createNewTask(future);
@@ -86,6 +109,11 @@ public abstract class Scheduler implements Runnable {
         return task;
     }
 
+    /**
+     * runs the task later asynchronously
+     *
+     * @param delay the delay
+     */
     public synchronized TaskScheduled runTaskLaterAsync(long delay) {
         Future<?> future = plugin.asyncService.submit(() -> plugin.scheduledService.schedule(runnable, delay, timeUnit));
         TaskScheduled task = this.createNewTask(future);
@@ -108,6 +136,9 @@ public abstract class Scheduler implements Runnable {
 
     // ------------------------ Manager ------------------------ //
 
+    /**
+     * cancels all task
+     */
     public void cancelAllTask() {
         for (TaskScheduled task : DiscordBot.scheduledTasks.values()) {
             if (!task.isCancelled()) task.cancel();
@@ -117,6 +148,11 @@ public abstract class Scheduler implements Runnable {
         plugin.startExecutors();
     }
 
+    /**
+     * cancels a task
+     *
+     * @param id the id
+     */
     public void cancelTask(long id) {
         try {
             DiscordBot.scheduledTasks.get(id).cancel();
@@ -125,6 +161,9 @@ public abstract class Scheduler implements Runnable {
         }
     }
 
+    /**
+     * constructs a new task instance
+     */
     private TaskScheduled createNewTask(Future<?> future) {
         long id = this.createNewId();
 
@@ -134,6 +173,9 @@ public abstract class Scheduler implements Runnable {
         return task;
     }
 
+    /**
+     * creates a new task id
+     */
     private long createNewId() {
         long id = 0L;
 

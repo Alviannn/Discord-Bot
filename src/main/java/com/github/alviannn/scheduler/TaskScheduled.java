@@ -28,6 +28,9 @@ public class TaskScheduled {
         this.otherFuture = otherFuture;
     }
 
+    /**
+     * cancels the task
+     */
     public void cancel() {
         if (!DiscordBot.scheduledTasks.containsKey(id))
             return;
