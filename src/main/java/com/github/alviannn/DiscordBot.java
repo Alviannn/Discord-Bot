@@ -138,30 +138,24 @@ public class DiscordBot {
             return;
 
         logger.warning("Shutting down bot...");
+        long start = System.currentTimeMillis();
 
-        new Scheduler() {
-            @Override
-            public void run() {
+        try {
+            clientStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                long start = System.currentTimeMillis();
-                try {
-                    clientStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        discord.shutdownNow();
 
-                discord.shutdownNow();
+        discord = null;
+        instance = null;
 
-                discord = null;
-                instance = null;
+        logger.info("-------------------------------------");
+        logger.info("Bot has been stopped! (" + (System.currentTimeMillis() - start) + " ms)");
+        logger.info("-------------------------------------");
 
-                logger.info("-------------------------------------");
-                logger.info("Bot has been stopped! (" + (System.currentTimeMillis() - start) + " ms)");
-                logger.info("-------------------------------------");
-
-                System.exit(0);
-            }
-        }.runTaskLater(5L);
+        System.exit(0);
     }
 
     /**
